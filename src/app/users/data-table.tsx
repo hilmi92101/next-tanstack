@@ -228,6 +228,9 @@ export function DataTable<TData, TValue>({
                     <PaginationItem>
                         <PaginationLink href="/profile">2</PaginationLink>
                     </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink href="/about">3</PaginationLink>
+                    </PaginationItem>
 
                     <PaginationItem>
                         <PaginationEllipsis />
