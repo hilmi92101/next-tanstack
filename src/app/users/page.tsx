@@ -11,7 +11,7 @@ async function getUsers(): Promise<User[]> {
 const UsersPage = async () => {
 
     const data = await getUsers()
-    
+
     return (
         <section>
             <div className="container">
