@@ -43,6 +43,16 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
+
 // ts
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -203,6 +213,32 @@ export function DataTable<TData, TValue>({
                     Next
                 </Button>
             </div>
+
+            {/* pagination 2*/}
+            <Pagination>
+                <PaginationContent>
+
+                    <PaginationItem>
+                        <PaginationPrevious href="#" />
+                    </PaginationItem>
+
+                    <PaginationItem>
+                        <PaginationLink href="#">1</PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink href="/profile">2</PaginationLink>
+                    </PaginationItem>
+
+                    <PaginationItem>
+                        <PaginationEllipsis />
+                    </PaginationItem>
+
+                    <PaginationItem>
+                        <PaginationNext href="#" />
+                    </PaginationItem>
+
+                </PaginationContent>
+            </Pagination>
         </>
 
     )
