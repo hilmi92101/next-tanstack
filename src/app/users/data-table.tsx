@@ -20,6 +20,9 @@ import {
     // filtering
     ColumnFiltersState,
     getFilteredRowModel,
+
+    // visibility
+    VisibilityState,
 } from "@tanstack/react-table"
 
 // shadcn component
@@ -33,6 +36,12 @@ import {
 } from "@/components/ui/table"
 import { Button } from '@/components/ui/button'
 import { Input } from "@/components/ui/input"
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 // ts
 interface DataTableProps<TData, TValue> {
@@ -51,6 +60,9 @@ export function DataTable<TData, TValue>({
     // filtering
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
+    // visibility
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+
     const table = useReactTable({
         data,
         columns,
@@ -67,12 +79,18 @@ export function DataTable<TData, TValue>({
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
 
+        // visibility
+        onColumnVisibilityChange: setColumnVisibility,
+
         state: {
             // sort
             sorting,
 
             // filtering 
             columnFilters,
+
+            // visibility
+            columnVisibility,
         },
     })
 
@@ -88,7 +106,38 @@ export function DataTable<TData, TValue>({
                     }
                     className="max-w-sm"
                 />
+
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="ml-auto">
+                            Columns
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        {table
+                            .getAllColumns()
+                            .filter(
+                                (column) => column.getCanHide()
+                            )
+                            .map((column) => {
+                                return (
+                                    <DropdownMenuCheckboxItem
+                                        key={column.id}
+                                        className="capitalize"
+                                        checked={column.getIsVisible()}
+                                        onCheckedChange={(value) =>
+                                            column.toggleVisibility(!!value)
+                                        }
+                                    >
+                                        {column.id}
+                                    </DropdownMenuCheckboxItem>
+                                )
+                            })}
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
+
+
 
             {/* Table */}
             <div className="rounded-md border">
