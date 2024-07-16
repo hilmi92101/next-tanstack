@@ -24,5 +24,10 @@ export const columns: ColumnDef<User>[] = [
     {
         accessorKey: "lastSeen",
         header: "Last Seen",
+        cell: ({ row }) => {
+            const date = new Date(row.getValue('lastSeen'))
+            const formatted = date.toLocaleDateString()
+            return <div className='font-medium'>{formatted}</div>
+        }
     },
 ]
