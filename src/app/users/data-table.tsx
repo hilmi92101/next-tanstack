@@ -3,7 +3,7 @@
 //main 
 import { useState } from "react"
 
-// tanstacktanstack
+// tanstack
 import {
     ColumnDef,
     flexRender,
@@ -16,6 +16,10 @@ import {
     // sort
     SortingState,
     getSortedRowModel,
+
+    // filtering
+    ColumnFiltersState,
+    getFilteredRowModel,
 } from "@tanstack/react-table"
 
 // shadcn component
@@ -28,6 +32,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Button } from '@/components/ui/button'
+import { Input } from "@/components/ui/input"
 
 // ts
 interface DataTableProps<TData, TValue> {
@@ -43,6 +48,9 @@ export function DataTable<TData, TValue>({
     // sort
     const [sorting, setSorting] = useState<SortingState>([])
 
+    // filtering
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+
     const table = useReactTable({
         data,
         columns,
@@ -54,13 +62,34 @@ export function DataTable<TData, TValue>({
         // sort
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
+
+        // filtering
+        onColumnFiltersChange: setColumnFilters,
+        getFilteredRowModel: getFilteredRowModel(),
+
         state: {
+            // sort
             sorting,
+
+            // filtering 
+            columnFilters,
         },
     })
 
     return (
         <>
+            {/* Filtering */}
+            <div className="flex items-center py-4">
+                <Input
+                    placeholder="Filter name..."
+                    value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+                    onChange={(event) =>
+                        table.getColumn("name")?.setFilterValue(event.target.value)
+                    }
+                    className="max-w-sm"
+                />
+            </div>
+
             {/* Table */}
             <div className="rounded-md border">
                 <Table>
